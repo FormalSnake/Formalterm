@@ -4,6 +4,8 @@ const Terminal = require("xterm").Terminal;
 const { FitAddon } = require("xterm-addon-fit");
 // This imports the webGL addon for xterm, which allows for gpu acceleration
 const { WebglAddon } = require("xterm-addon-webgl");
+const { LigaturesAddon } = require("xterm-addon-ligatures");
+const { ImageAddon } = require("xterm-addon-image");
 
 const { getTermBG, saveBGColor } = require("./settings");
 
@@ -20,7 +22,8 @@ var term = new Terminal({
   // This allows xterm.js to use rgba backgrounds
   allowTransparency: "true",
   cursorBlink: false,
-  rendererType: "dom",
+  rendererType: "webgl",
+  allowProposedApi: true,
 });
 
 document.body.style.backgroundColor = bgColor;
@@ -59,6 +62,9 @@ const webgl = new WebglAddon();
 term.loadAddon(webgl);
 term.loadAddon(fitAddon);
 fitAddon.fit();
+const ligaturesAddon = new LigaturesAddon();
+term.loadAddon(ligaturesAddon);
+term.loadAddon(new ImageAddon());
 term.onRender = function () {
   fitAddon.fit();
 };
