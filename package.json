@@ -1,0 +1,32 @@
+{
+  "name": "electron-example",
+  "version": "1.0.0",
+  "description": "A minimal Electron application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "rebuild-node-pty": "electron-rebuild -f -o node-pty -m target",
+    "rebuild": "electron-rebuild -f -o node-pty -m",
+    "dist": "electron-builder",
+    "distintel": "electron-builder --x64 --arm64"
+  },
+  "repository": "https://github.com/FormalSnake/Formalterm.git",
+  "keywords": [
+    "Electron",
+    "Terminal"
+  ],
+  "author": "GitHub",
+  "license": "CC0-1.0",
+  "devDependencies": {
+    "electron": "^23.1.1",
+    "electron-rebuild": "^3.2.9"
+  },
+  "dependencies": {
+    "electron-builder": "^23.6.0",
+    "electron-updater": "^5.3.0",
+    "node-pty": "^0.10.1",
+    "xterm": "^5.1.0",
+    "xterm-addon-fit": "^0.7.0",
+    "xterm-addon-webgl": "^0.14.0"
+  }
+}
