@@ -1,6 +1,6 @@
 {
   "name": "formalterm",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Another electron terminal emulator.",
   "main": "main.js",
   "scripts": {
@@ -30,6 +30,7 @@
     "electron-store": "^8.1.0",
     "electron-updater": "^5.3.0",
     "node-pty": "^0.10.1",
+    "v8-compile-cache": "^2.3.0",
     "xterm": "^5.1.0",
     "xterm-addon-canvas": "^0.3.0",
     "xterm-addon-fit": "^0.7.0",

@@ -25,6 +25,40 @@ function getTermBG() {
   }
 }
 
+function getFont() {
+  const default_font = "FiraCode Nerd Font";
+
+  const font = storage.get("term-font");
+
+  if (font) return font;
+  else {
+    storage.set("term-font", default_font);
+    return default_font;
+  }
+}
+
+function getVibrancy() {
+  const default_blur = "true";
+
+  const blur = storage.get("win-blur", default_blur);
+
+  if (blur) return blur;
+  else {
+    storage.set("win-blur", default_blur);
+    return default_blur;
+  }
+}
+
+function saveBlur(blur) {
+  storage.set("win-blur", blur);
+  console.log("Blur saved: ", blur);
+}
+
+function saveFont(font) {
+  storage.set("term-font", font);
+  console.log("Font saved: ", font);
+}
+
 function saveBGColor(color) {
   storage.set("term-color", color);
   console.log("BG Color saved: ", color);
@@ -36,6 +70,10 @@ function saveBounds(bounds) {
 }
 
 module.exports = {
+  getFont: getFont,
+  getBlur: getVibrancy,
+  saveBlur: saveBlur,
+  saveFont: saveFont,
   getWindowSettings: getWinSettings,
   getTermBG: getTermBG,
   saveBGColor: saveBGColor,

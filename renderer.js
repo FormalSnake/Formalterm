@@ -7,15 +7,16 @@ const { WebglAddon } = require("xterm-addon-webgl");
 const { LigaturesAddon } = require("xterm-addon-ligatures");
 const { ImageAddon } = require("xterm-addon-image");
 
-const { getTermBG, saveBGColor } = require("./settings");
+const { getTermBG, saveBGColor, getFont, saveFont } = require("./settings");
 
 const bgColor = getTermBG();
+const font = getFont();
 
 var term = new Terminal({
   theme: {
     background: bgColor,
   },
-  fontFamily: "FiraCode Nerd Font",
+  fontFamily: font,
   // This gives the terminal name to other programs like neofetch
   termProgram: "Formalterm",
   experimentalCharAtlas: "dynamic",
@@ -25,7 +26,7 @@ var term = new Terminal({
   rendererType: "webgl",
   allowProposedApi: true,
 });
-
+console.log(getTermBG);
 document.body.style.backgroundColor = bgColor;
 
 const fitAddon = new FitAddon();

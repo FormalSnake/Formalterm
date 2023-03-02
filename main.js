@@ -1,5 +1,7 @@
+require("v8-compile-cache");
+
 // Modules to control application life and create native browser window
-const { app, BrowserWindow, ipcMain } = require("electron");
+const { app, BrowserWindow, ipcMain, globalShortcut } = require("electron");
 const path = require("path");
 // Imports node-pty, which is required for the actual terminal process
 const pty = require("node-pty");
@@ -7,7 +9,12 @@ const pty = require("node-pty");
 const os = require("os");
 // This is the auto updater that updates the application when a new version comes out.
 const { autoUpdater } = require("electron-updater");
-const { getWindowSettings, saveBounds } = require("./settings");
+const {
+  getWindowSettings,
+  saveBounds,
+  getBlur,
+  saveBlur,
+} = require("./settings");
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -30,8 +37,12 @@ function createWindow() {
       allowRunningInsecureContent: true,
     },
   });
-
-  mainWindow.setVibrancy("hud");
+  const blurStat = getBlur();
+  if (blurStat == "true") {
+    mainWindow.setVibrancy("hud");
+  } else {
+    mainWindow.setVibrancy(null);
+  }
 
   mainWindow.on("resized", () => saveBounds(mainWindow.getSize()));
 
@@ -77,7 +88,7 @@ function createWindow() {
   mainWindow.loadFile("index.html");
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  // mainWindow.webContents.openDevTools();
 
   // Emitted when the window is closed.
   mainWindow.on("closed", function () {
@@ -91,6 +102,9 @@ function createWindow() {
   // When there is an update available, it changes the window to the updating screen
   autoUpdater.on("update-available", function () {
     mainWindow.loadURL(`file://${__dirname}/updater/updater.html`);
+  });
+  globalShortcut.register("CommandOrControl+,", () => {
+    mainWindow.loadURL(`file://${__dirname}/settings.html`);
   });
   // When the update has been downloaded, it quits the application and installs it
   autoUpdater.on("update-downloaded", (updateInfo) => {
@@ -121,3 +135,7 @@ app.on("activate", function () {
 
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
+function relaunchApp() {
+  app.relaunch();
+  app.quit();
+}
