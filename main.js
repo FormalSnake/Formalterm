@@ -51,7 +51,7 @@ function createWindow() {
   //ipcing
   // This starts the pty process, with basic terminal configurations
   let ptyProcess = pty.spawn(shell, [], {
-    name: "xterm-color",
+    name: "xterm-256color",
     cols: 152,
     rows: 41,
     cwd: process.env.HOME,
