@@ -6,6 +6,14 @@ const { FitAddon } = require("xterm-addon-fit");
 const { WebglAddon } = require("xterm-addon-webgl");
 const { LigaturesAddon } = require("xterm-addon-ligatures");
 const { ImageAddon } = require("xterm-addon-image");
+const { WebLinksAddon } = require("xterm-addon-web-links");
+const { Unicode11Addon } = require("xterm-addon-unicode11");
+
+class WebViewLinksAddon extends WebLinksAddon {
+  openWebLink(link) {
+    ipcRenderer.send("open-url-in-webview", link);
+  }
+}
 
 const { getTermBG, saveBGColor, getFont, saveFont } = require("./settings");
 
@@ -66,6 +74,8 @@ fitAddon.fit();
 const ligaturesAddon = new LigaturesAddon();
 term.loadAddon(ligaturesAddon);
 term.loadAddon(new ImageAddon());
+term.loadAddon(new WebViewLinksAddon());
+term.loadAddon(new Unicode11Addon());
 term.onRender = function () {
   fitAddon.fit();
 };
@@ -74,3 +84,23 @@ window.onresize = function () {
   //log();
   fitAddon.fit();
 };
+/*
+if (term.onCursorMove) {
+  this.disposableListeners.push(
+    this.term.onCursorMove(() => {
+      const cursorFrame = {
+        x:
+          this.term.buffer.active.cursorX *
+          this.term._core._renderService.dimensions.actualCellWidth,
+        y:
+          this.term.buffer.active.cursorY *
+          this.term._core._renderService.dimensions.actualCellHeight,
+        width: this.term._core._renderService.dimensions.actualCellWidth,
+        height: this.term._core._renderService.dimensions.actualCellHeight,
+        col: this.term.buffer.active.cursorX,
+        row: this.term.buffer.active.cursorY,
+      };
+      term.onCursorMove?.(cursorFrame);
+    })
+  );
+}*/

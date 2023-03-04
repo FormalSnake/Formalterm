@@ -113,6 +113,21 @@ function createWindow() {
       app.exit();
     }, 10000);
   });
+  ipcMain.on("open-url-in-webview", (event, url) => {
+    const win = new BrowserWindow({
+      width: bounds[0],
+      height: bounds[1],
+      center: true,
+      webPreferences: {
+        nodeIntegration: true,
+        contextIsolation: false,
+        enableRemoteModule: true,
+        allowRunningInsecureContent: true,
+      },
+    });
+
+    win.loadURL(url);
+  });
 }
 
 // This method will be called when Electron has finished
